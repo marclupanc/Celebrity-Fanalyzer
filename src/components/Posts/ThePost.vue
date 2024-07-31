@@ -252,7 +252,6 @@ watchEffect(async () => {
 </script>
 
 <style scoped lang="scss">
-// add a blur effect to the background image
 .bg-blur {
   backdrop-filter: blur(60px);
 }
