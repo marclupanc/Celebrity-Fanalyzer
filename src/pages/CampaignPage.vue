@@ -109,7 +109,7 @@ onUnmounted(async () => {
   if (advertise.value.status === 'Active') {
     const stats = stopTracking()
     try {
-      await statStore.addStats(advertise.value?.id, advertise?.value?.author?.uid, stats, 'advertisement')
+      // await statStore.addStats(advertise.value?.id, advertise?.value?.author?.uid, stats, 'advertisement')
     } catch (error) {
       console.error('Error adding stats:', error)
     }

@@ -268,7 +268,7 @@ export const usePromptStore = defineStore('prompts', {
         const deletePromptDoc = deleteDoc(doc(db, 'prompts', id))
         const deleteShares = shareStore.deleteAllShares('prompts', id)
         const deleteVisitors = visitorStore.deleteAllVisitors('prompts', id)
-        const deletePromptFromStats = statStore.removeTopic(id)
+        // const deletePromptFromStats = statStore.removeTopic(id)
 
         await Promise.all([deleteComments, deleteLikes, deleteShares, deleteImage, deletePromptDoc, deleteVisitors, deletePromptFromStats])
         this._prompts = this.getPrompts?.filter((prompt) => prompt.id !== id)

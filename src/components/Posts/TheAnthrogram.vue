@@ -108,9 +108,9 @@ const hasValidStats = computed(() => {
 onMounted(async () => {
   await visitorStore.readVisitors(props.collectionName, props.post.id).catch((error) => errorStore.throwError(error))
   await shareStore.fetchSharesStats(props.collectionName, props.post.id).catch((error) => errorStore.throwError(error))
-  await statStore.fetchStats(props.post.id)
-  await statStore.getArticleRating(props.post.id)
-  await statStore.getArticleMetrics(props.post.id)
+  // await statStore.fetchStats(props.post.id)
+  // await statStore.getArticleRating(props.post.id)
+  // await statStore.getArticleMetrics(props.post.id)
 })
 
 onUnmounted(() => {

@@ -313,7 +313,7 @@ export const useAdvertiseStore = defineStore('advertises', {
         const deleteVisitors = visitorStore.deleteAllVisitors('advertises', id)
         const deleteClicks = clicksStore.deleteAllClicks('advertises', id)
         const deleteImpressions = impressionsStore.deleteAllImpressions('advertises', id)
-        const deleteAdFromStats = statStore.removeAd(id)
+        // const deleteAdFromStats = statStore.removeAd(id)
 
         await Promise.all([
           deleteComments,
@@ -323,7 +323,7 @@ export const useAdvertiseStore = defineStore('advertises', {
           deleteVisitors,
           deleteClicks,
           deleteImpressions,
-          deleteAdFromStats
+          // deleteAdFromStats
         ])
       } catch (error) {
         console.log(error)

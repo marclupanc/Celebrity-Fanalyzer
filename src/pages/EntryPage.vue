@@ -77,7 +77,7 @@ const entry = computed(() => {
 })
 watchEffect(async () => {
   if (entry.value?.author?.uid) {
-    await statStore.getUserRating(entry.value?.author?.uid)
+    // await statStore.getUserRating(entry.value?.author?.uid)
   }
   if (entry.value?.prompt?.id) {
     prompt.value = (await promptStore.fetchPromptById(entry.value.prompt.id))[0]
@@ -98,7 +98,7 @@ onMounted(async () => {
 onUnmounted(async () => {
   const stats = stopTracking()
   try {
-    await statStore.addStats(entryId, entryAuthor, stats, 'article')
+    // await statStore.addStats(entryId, entryAuthor, stats, 'article')
   } catch (e) {
     console.error('Error adding stats:', e)
   } finally {

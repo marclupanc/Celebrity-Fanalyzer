@@ -210,25 +210,25 @@ onMounted(async () => {
 watch(layer8Initialized, async () => {
   if (layer8Initialized.value) {
     if (isPrompt) {
-      await statsStore.addTopic(props.post?.id, props.post.author?.uid, props.post?.title, props.post?.description, props.post?.categories)
+      // await statsStore.addTopic(props.post?.id, props.post.author?.uid, props.post?.title, props.post?.description, props.post?.categories)
     }
 
     if (isEntry) {
       const promptId = props.post.prompt?.id
         ? props.post.prompt?.id
         : promptStore.getPrompts?.filter((prompt) => prompt.entries.includes(props.post.id))[0]?.id
-      await statsStore.addArticle(props.post?.id, promptId, props.post.author?.uid, props.post?.title, props.post.description)
+      // await statsStore.addArticle(props.post?.id, promptId, props.post.author?.uid, props.post?.title, props.post.description)
     }
 
     if (isAd) {
-      await statsStore.addAdvertisement(
-        props.post.id,
-        props.post.author?.uid,
-        props.post.title,
-        props.post.content,
-        props.post.budget,
-        props.post.duration
-      )
+      // await statsStore.addAdvertisement(
+      //   props.post.id,
+      //   props.post.author?.uid,
+      //   props.post.title,
+      //   props.post.content,
+      //   props.post.budget,
+      //   props.post.duration
+      // )
     }
   }
 })

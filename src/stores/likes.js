@@ -5,17 +5,17 @@ import { useUserStore } from 'src/stores'
 import layer8 from 'layer8_interceptor'
 import { baseURL } from 'stores/stats'
 
-const pushLikeToStats = async (user_id, article_id, topic_id, isLike, ad_id) =>
-  await layer8
-    .fetch(`${baseURL}/reaction`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ user_id, article_id, topic_id, isLike, ad_id })
-    })
-    .then((res) => res.json())
-    .catch((err) => console.log(err))
+// const pushLikeToStats = async (user_id, article_id, topic_id, isLike, ad_id) =>
+//   await layer8
+//     .fetch(`${baseURL}/reaction`, {
+//       method: 'POST',
+//       headers: {
+//         'Content-Type': 'application/json'
+//       },
+//       body: JSON.stringify({ user_id, article_id, topic_id, isLike, ad_id })
+//     })
+//     .then((res) => res.json())
+//     .catch((err) => console.log(err))
 
 export const useLikeStore = defineStore('likes', {
   state: () => ({
@@ -71,7 +71,7 @@ export const useLikeStore = defineStore('likes', {
         if (likesSnap.exists()) {
           await deleteDoc(likesRef)
           if (!isTest) {
-            await pushLikeToStats(user_id, article_id, topic_id, null, ad_id)
+            // await pushLikeToStats(user_id, article_id, topic_id, null, ad_id)
           }
         } else {
           const like = {
@@ -80,7 +80,7 @@ export const useLikeStore = defineStore('likes', {
           }
           await setDoc(likesRef, like)
           if (!isTest) {
-            await pushLikeToStats(user_id, article_id, topic_id, true, ad_id)
+            // await pushLikeToStats(user_id, article_id, topic_id, true, ad_id)
           }
         }
 
@@ -111,7 +111,7 @@ export const useLikeStore = defineStore('likes', {
         if (dislikesSnap.exists()) {
           await deleteDoc(dislikesRef)
           if (!isTest) {
-            await pushLikeToStats(user_id, article_id, topic_id, null, ad_id)
+            // await pushLikeToStats(user_id, article_id, topic_id, null, ad_id)
           }
         } else {
           const dislike = {
@@ -120,7 +120,7 @@ export const useLikeStore = defineStore('likes', {
           }
           await setDoc(dislikesRef, dislike)
           if (!isTest) {
-            await pushLikeToStats(user_id, article_id, topic_id, false, ad_id)
+            // await pushLikeToStats(user_id, article_id, topic_id, false, ad_id)
           }
         }
 

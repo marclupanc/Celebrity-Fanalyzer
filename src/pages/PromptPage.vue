@@ -107,7 +107,7 @@ watchEffect(() => {
 
 watchEffect(async () => {
   if (prompt?.value?.author?.uid) {
-    await statStore.getUserRating(prompt?.value?.author?.uid)
+    // await statStore.getUserRating(prompt?.value?.author?.uid)
   }
 
   if (prompt.value?.id) {
@@ -160,7 +160,7 @@ onBeforeRouteLeave(async () => {
 
 onUnmounted(async () => {
   try {
-    await statStore.addStats(promptId, authorId, stats, 'topic')
+    // await statStore.addStats(promptId, authorId, stats, 'topic')
   } catch (e) {
     console.error('Error adding stats:', e)
   } finally {

@@ -259,7 +259,7 @@ export const useEntryStore = defineStore('entries', {
         const deleteVisitors = visitorStore.deleteAllVisitors('entries', entryId)
         const deleteEntryRef = updateDoc(doc(db, 'prompts', promptId), { entries: arrayRemove(entryRef) })
         const deleteEntryDoc = deleteDoc(doc(db, 'entries', entryId))
-        const deleteEntryFromStats = statStore.removeArticle(entryId)
+        // const deleteEntryFromStats = statStore.removeArticle(entryId)
 
         await Promise.all([
           deleteImage,
@@ -269,7 +269,7 @@ export const useEntryStore = defineStore('entries', {
           deleteLikes,
           deleteShares,
           deleteVisitors,
-          deleteEntryFromStats
+          // deleteEntryFromStats
         ])
         this._entries = this._entries.filter((entry) => entry.id !== entryId)
       } catch (error) {
