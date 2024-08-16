@@ -2,20 +2,20 @@ import { collection, deleteDoc, doc, getCountFromServer, getDocs, setDoc, Timest
 import { defineStore } from 'pinia'
 import { db } from 'src/firebase'
 import { useUserStore } from 'src/stores'
-import layer8 from 'layer8_interceptor'
+// import layer8 from 'layer8_interceptor'
 import { baseURL } from 'stores/stats'
 
-const pushShareToStats = async (user_id, id, social_media) =>
-  await layer8
-    .fetch(`${baseURL}/share`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ user_id, id, social_media })
-    })
-    .then((res) => res.json())
-    .catch((err) => console.log(err))
+// const pushShareToStats = async (user_id, id, social_media) =>
+//   await layer8
+//     .fetch(`${baseURL}/share`, {
+//       method: 'POST',
+//       headers: {
+//         'Content-Type': 'application/json'
+//       },
+//       body: JSON.stringify({ user_id, id, social_media })
+//     })
+//     .then((res) => res.json())
+//     .catch((err) => console.log(err))
 
 export const useShareStore = defineStore('shares', {
   state: () => ({
@@ -69,7 +69,7 @@ export const useShareStore = defineStore('shares', {
           sharedOn: socialNetwork
         })
         if (!isTest) {
-          await pushShareToStats(user_id, documentId, socialNetwork)
+          // await pushShareToStats(user_id, documentId, socialNetwork)
         }
 
         await this.fetchSharesCount(collectionName, documentId)

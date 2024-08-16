@@ -19,20 +19,19 @@ import {
 import { defineStore } from 'pinia'
 import { db } from 'src/firebase'
 import { useUserStore } from 'src/stores'
-import layer8 from 'layer8_interceptor'
 import { baseURL } from 'stores/stats'
 
-const pushCommentToStats = async (user_id, id, content) =>
-  await layer8
-    .fetch(`${baseURL}/comment`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ user_id, id, content })
-    })
-    .then((res) => res.json())
-    .catch((err) => console.log(err))
+// const pushCommentToStats = async (user_id, id, content) =>
+//   await layer8
+//     .fetch(`${baseURL}/comment`, {
+//       method: 'POST',
+//       headers: {
+//         'Content-Type': 'application/json'
+//       },
+//       body: JSON.stringify({ user_id, id, content })
+//     })
+//     .then((res) => res.json())
+//     .catch((err) => console.log(err))
 
 export const useCommentStore = defineStore('comments', {
   state: () => ({
@@ -157,7 +156,7 @@ export const useCommentStore = defineStore('comments', {
       comment.isAnonymous = !userStore.isAuthenticated
 
       if (!isTest) {
-        await pushCommentToStats(user_id, document.id, comment.text)
+        // await pushCommentToStats(user_id, document.id, comment.text)
       }
 
       this._isLoading = true

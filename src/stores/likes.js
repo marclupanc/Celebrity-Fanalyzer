@@ -2,8 +2,6 @@ import { collection, deleteDoc, doc, getDoc, getDocs, onSnapshot, setDoc, Timest
 import { defineStore } from 'pinia'
 import { db } from 'src/firebase'
 import { useUserStore } from 'src/stores'
-import layer8 from 'layer8_interceptor'
-import { baseURL } from 'stores/stats'
 
 // const pushLikeToStats = async (user_id, article_id, topic_id, isLike, ad_id) =>
 //   await layer8

@@ -194,10 +194,8 @@ const isAd = props.post?.isAdd
 const id = props.post.id
 const userId = userStore.getUserId ? userStore.getUserId : userStore.getUserIpHash
 const userLocation = userStore.getUser?.location || userStore.getUserLocation
-const layer8Initialized = ref(undefined)
 
 onMounted(async () => {
-  await statsStore.addUser(userId, userLocation)
 
   if (props.post?.id) {
     await commentStore.getTotalComments(props.collectionName, props.post?.id)
@@ -207,31 +205,31 @@ onMounted(async () => {
   }
 })
 
-watch(layer8Initialized, async () => {
-  if (layer8Initialized.value) {
-    if (isPrompt) {
-      // await statsStore.addTopic(props.post?.id, props.post.author?.uid, props.post?.title, props.post?.description, props.post?.categories)
-    }
-
-    if (isEntry) {
-      const promptId = props.post.prompt?.id
-        ? props.post.prompt?.id
-        : promptStore.getPrompts?.filter((prompt) => prompt.entries.includes(props.post.id))[0]?.id
-      // await statsStore.addArticle(props.post?.id, promptId, props.post.author?.uid, props.post?.title, props.post.description)
-    }
-
-    if (isAd) {
-      // await statsStore.addAdvertisement(
-      //   props.post.id,
-      //   props.post.author?.uid,
-      //   props.post.title,
-      //   props.post.content,
-      //   props.post.budget,
-      //   props.post.duration
-      // )
-    }
-  }
-})
+// watch(layer8Initialized, async () => {
+//   if (layer8Initialized.value) {
+//     if (isPrompt) {
+//       // await statsStore.addTopic(props.post?.id, props.post.author?.uid, props.post?.title, props.post?.description, props.post?.categories)
+//     }
+//
+//     if (isEntry) {
+//       const promptId = props.post.prompt?.id
+//         ? props.post.prompt?.id
+//         : promptStore.getPrompts?.filter((prompt) => prompt.entries.includes(props.post.id))[0]?.id
+//       // await statsStore.addArticle(props.post?.id, promptId, props.post.author?.uid, props.post?.title, props.post.description)
+//     }
+//
+//     if (isAd) {
+//       // await statsStore.addAdvertisement(
+//       //   props.post.id,
+//       //   props.post.author?.uid,
+//       //   props.post.title,
+//       //   props.post.content,
+//       //   props.post.budget,
+//       //   props.post.duration
+//       // )
+//     }
+//   }
+// })
 
 async function like() {
   if (isPrompt) {
@@ -276,9 +274,9 @@ function manageEdit() {
 }
 
 watchEffect(async () => {
-  if (statsStore.getInitializedState) {
-    layer8Initialized.value = statsStore.getInitializedState
-  }
+  // if (statsStore.getInitializedState) {
+    // layer8Initialized.value = statsStore.getInitializedState
+  // }
 
   if (statsStore.getUserRate) {
     userRating.value = (statsStore.getUserRate / 100) * 5

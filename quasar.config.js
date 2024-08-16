@@ -50,7 +50,6 @@ module.exports = configure(function (ctx) {
                 'vue',
                 'vue-echarts',
                 'vue-router',
-                'layer8_interceptor'
               ]
               if (id.includes('/node_modules/')) {
                 for (const chunkName of chunks) {

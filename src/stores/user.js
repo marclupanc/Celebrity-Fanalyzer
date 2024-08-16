@@ -11,7 +11,6 @@ import { defineStore } from 'pinia'
 import { LocalStorage, Notify } from 'quasar'
 import sha1 from 'sha1'
 import { auth, db } from 'src/firebase'
-import layer8 from 'layer8_interceptor'
 import { baseURL } from 'stores/stats'
 
 export const useUserStore = defineStore('user', {
@@ -220,11 +219,11 @@ export const useUserStore = defineStore('user', {
       }).catch((error) => console.log(error))
     },
 
-    async getStatsUsers() {
-      const allUsers = await layer8.fetch(`${baseURL}/users`, {
-        method: 'GET'
-      })
-      this._statsUsers = await allUsers.json()
-    }
+    // async getStatsUsers() {
+    //   const allUsers = await layer8.fetch(`${baseURL}/users`, {
+    //     method: 'GET'
+    //   })
+    //   this._statsUsers = await allUsers.json()
+    // }
   }
 })

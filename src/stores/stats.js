@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia'
 import { useClicksStore, useCommentStore, useImpressionsStore, useLikeStore, useShareStore } from 'src/stores'
-import layer8 from 'layer8_interceptor'
 
 export const baseURL = import.meta.env.VITE_STATS_API_URL
 export const useStatStore = defineStore('stats', {
