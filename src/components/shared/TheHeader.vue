@@ -14,7 +14,7 @@
         <q-icon v-if="subtitle" name="arrow_forward" color="secondary" class="q-px-sm" />
         <span v-if="subtitle" class="text-secondary">{{ subtitle }}</span>
       </q-toolbar-title>
-      <!--      <NotificationBubble v-if="notificationButton && userStore.isAuthenticated" />-->
+            <NotificationBubble v-if="notificationButton && userStore.isAuthenticated" />
       <q-btn color="secondary" data-test="feedback-button" flat icon="feedback" round size="1rem" @click="goToFeedback">
         <q-tooltip>Feedback</q-tooltip>
       </q-btn>
@@ -30,18 +30,18 @@
         size="1rem"
       >
         <q-list style="min-width: 100px">
-          <!--          <q-item v-if="userStore.isEditorOrAbove" clickable @click="openPromptDialog()">-->
-          <!--            <q-item-section>New Prompt</q-item-section>-->
-          <!--          </q-item>-->
+                    <q-item v-if="userStore.isEditorOrAbove" clickable @click="openPromptDialog()">
+                      <q-item-section>New Prompt</q-item-section>
+                    </q-item>
           <q-item clickable @click="openEntryDialog()">
             <q-item-section>New Entry</q-item-section>
           </q-item>
           <q-item clickable @click="openAdvertiseDialog()">
             <q-item-section>New Advertise</q-item-section>
           </q-item>
-          <!--          <q-item v-if="userStore.isAdmin && uniqueUsers?.length" clickable @click="addAllUsersToStatsDb()">-->
-          <!--            <q-item-section>Add new users</q-item-section>-->
-          <!--          </q-item>-->
+                    <q-item v-if="userStore.isAdmin && uniqueUsers?.length" clickable @click="addAllUsersToStatsDb()">
+                      <q-item-section>Add new users</q-item-section>
+                    </q-item>
         </q-list>
       </q-btn-dropdown>
     </q-toolbar>
@@ -160,31 +160,31 @@ const router = useRouter()
 const entry = ref({})
 const prompt = ref({})
 const advertise = ref({})
-// const userStore = useUserStore()
-// const entryStore = useEntryStore()
-// const errorStore = useErrorStore()
+const userStore = useUserStore()
+const entryStore = useEntryStore()
+const errorStore = useErrorStore()
 
 const openFilter = ref(false)
 const selectedDate = ref('')
 const dataKey = ref(Date.now())
 
-// const uniqueUsers = computed(() => {
-//   const firebaseUsers = userStore?.getUsers?.map((user) => user.uid) || []
-//   const statsUsersIds = userStore.getAllUsers?.usersList.map((user) => user.user_id) || []
-//   return firebaseUsers.filter((user) => !statsUsersIds.includes(user))
-// })
+const uniqueUsers = computed(() => {
+  const firebaseUsers = userStore?.getUsers?.map((user) => user.uid) || []
+  const statsUsersIds = userStore.getAllUsers?.usersList.map((user) => user.user_id) || []
+  return firebaseUsers.filter((user) => !statsUsersIds.includes(user))
+})
 
 onMounted(async () => {
-  // await userStore.fetchUsers()
-  // await userStore.getStatsUsers()
+  await userStore.fetchUsers()
+  await userStore.getStatsUsers()
 })
-//
-// const addAllUsersToStatsDb = () => {
-//   const allUsersMap = userStore?.getUsers.map((user) => {
-//     return { user_id: user.uid }
-//   })
-//   userStore.addAllUsers(allUsersMap)
-// }
+
+const addAllUsersToStatsDb = () => {
+  const allUsersMap = userStore?.getUsers.map((user) => {
+    return { user_id: user.uid }
+  })
+  userStore.addAllUsers(allUsersMap)
+}
 
 function goBack() {
   router.go(-1)
@@ -210,12 +210,12 @@ function openAdvertiseDialog(props) {
 }
 
 function applyFilters() {
-  // const hasLoadedEntry = entryStore.checkPromptRelatedEntry(selectedDate.value)
-  // if (!hasLoadedEntry) {
-  //   entryStore.fetchEntryByPrompts(selectedDate.value)
-  // }
-  // entryStore.fetchEntryByPrompts(selectedDate.value).catch((error) => errorStore.throwError(error))
-  // emit('updateSearchDate', selectedDate.value)
+  const hasLoadedEntry = entryStore.checkPromptRelatedEntry(selectedDate.value)
+  if (!hasLoadedEntry) {
+    entryStore.fetchEntryByPrompts(selectedDate.value)
+  }
+  entryStore.fetchEntryByPrompts(selectedDate.value).catch((error) => errorStore.throwError(error))
+  emit('updateSearchDate', selectedDate.value)
 }
 
 function clearFilters() {
