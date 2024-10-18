@@ -179,9 +179,9 @@ import { useQuasar } from 'quasar'
 import { useAdvertiseStore, useErrorStore, useStorageStore, useUserStore } from 'src/stores'
 import { calculateEndDate, currentYearMonth, getCurrentDate } from 'src/utils/date'
 import { onMounted, reactive, ref, watchEffect } from 'vue'
-import { contractCreateAdCampaign } from 'app/src/web3/adCampaignManager'
-import { customWeb3modal } from 'app/src/web3/walletConnect'
-import { fetchMaticRate } from 'app/src/web3/transfers.js'
+// import { contractCreateAdCampaign } from 'app/src/web3/adCampaignManager'
+// import { customWeb3modal } from 'app/src/web3/walletConnect'
+// import { fetchMaticRate } from 'app/src/web3/transfers.js'
 
 const emit = defineEmits(['hideDialog'])
 const props = defineProps([

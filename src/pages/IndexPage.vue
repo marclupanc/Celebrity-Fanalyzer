@@ -213,7 +213,7 @@ const monthPrompt = computed(() => {
 })
 
 onMounted(async () => {
-  await promptStore.fetchMonthsPrompt().catch((error) => errorStore.throwError(error, error))
+  // await promptStore.fetchMonthsPrompt().catch((error) => errorStore.throwError(error, error))
 })
 </script>
 
