@@ -205,11 +205,11 @@ import TheHeader from 'src/components/shared/TheHeader.vue'
 import { useErrorStore, usePromptStore } from 'src/stores'
 import { computed, onMounted, ref } from 'vue'
 
-const errorStore = useErrorStore()
+// const errorStore = useErrorStore()
 const promptStore = usePromptStore()
 
 const monthPrompt = computed(() => {
-  return promptStore.getMonthPrompt?.[0]
+  return []
 })
 
 onMounted(async () => {
