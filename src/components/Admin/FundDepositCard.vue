@@ -26,7 +26,7 @@
 import { useQuasar } from 'quasar'
 import { useErrorStore } from 'src/stores'
 import { ref, onMounted } from 'vue'
-import { fetchMaticRate } from 'app/src/web3/transfers.js'
+// import { fetchMaticRate } from 'app/src/web3/transfers.js'
 import { usePromptStore } from 'src/stores'
 import { depositFunds } from 'app/src/web3/escrow'
 
@@ -51,7 +51,7 @@ const maticRate = ref(0)
 onMounted(async () => {
   _walletAddress.value = props.walletAddress
   _prompt.value = props.prompt
-  const maticRateResult = await fetchMaticRate()
+  const maticRateResult = undefined
   if (maticRateResult?.success) {
     maticRate.value = maticRateResult.maticRate
   } else {

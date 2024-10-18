@@ -242,7 +242,7 @@ import { useQuasar } from 'quasar'
 import { useAdvertiseStore, useErrorStore, useUserStore } from 'src/stores'
 import { useRouter } from 'vue-router'
 import { getCurrentDate, calculateEndDate, computedDuration, dayMonthYear } from 'src/utils/date'
-import { claimPayment, requestAndApproveWithdrawal, getEventsForCampaign } from 'app/src/web3/adCampaignManager'
+// import { claimPayment, requestAndApproveWithdrawal, getEventsForCampaign } from 'app/src/web3/adCampaignManager'
 
 const props = defineProps({
   advertises: {
@@ -299,48 +299,48 @@ async function calculateAmountSpent(advertise) {
 }
 
 async function _getEventsForCampaign(advertise) {
-  if (advertise?.campaignCode) {
-    $q.loading.show()
-    const result = await getEventsForCampaign(advertise.campaignCode)
-
-    if (result.status.includes('success')) {
-      // Combine events into a single array with eventType field
-
-      const adCampaignCreatedEvents = result.events.adCampaignCreatedEvents.map((event) => ({
-        ...event,
-        eventType: 'Campaign Created'
-      }))
-
-      const paymentReleasedEvents = result.events.paymentReleasedEvents.map((event) => ({
-        ...event,
-        eventType: 'Payment Released'
-      }))
-
-      const budgetWithdrawnEvents = result.events.budgetWithdrawnEvents.map((event) => ({
-        ...event,
-        eventType: 'Remaining Budget Withdrawn'
-      }))
-
-      const paymentReleasedOnWithdrawApprovalEvents = result.events.paymentReleasedOnWithdrawApprovalEvents.map((event) => ({
-        ...event,
-        eventType: 'Payment Released on Withdraw Approval'
-      }))
-
-      eventRows.value = [
-        ...adCampaignCreatedEvents,
-        ...paymentReleasedEvents,
-        ...budgetWithdrawnEvents,
-        ...paymentReleasedOnWithdrawApprovalEvents
-      ]
-      //let's change the advertise status.
-      advertismentPaymentEventsDialog.value.show = true
-    } else {
-      $q.notify({ message: result?.error?.message, type: 'negative' })
-    }
-  } else {
-    $q.notify({ message: 'No campaign code associated', type: 'negative' })
-  }
-  $q.loading.hide()
+  // if (advertise?.campaignCode) {
+  //   $q.loading.show()
+  //   const result = await getEventsForCampaign(advertise.campaignCode)
+  //
+  //   if (result.status.includes('success')) {
+  //     // Combine events into a single array with eventType field
+  //
+  //     const adCampaignCreatedEvents = result.events.adCampaignCreatedEvents.map((event) => ({
+  //       ...event,
+  //       eventType: 'Campaign Created'
+  //     }))
+  //
+  //     const paymentReleasedEvents = result.events.paymentReleasedEvents.map((event) => ({
+  //       ...event,
+  //       eventType: 'Payment Released'
+  //     }))
+  //
+  //     const budgetWithdrawnEvents = result.events.budgetWithdrawnEvents.map((event) => ({
+  //       ...event,
+  //       eventType: 'Remaining Budget Withdrawn'
+  //     }))
+  //
+  //     const paymentReleasedOnWithdrawApprovalEvents = result.events.paymentReleasedOnWithdrawApprovalEvents.map((event) => ({
+  //       ...event,
+  //       eventType: 'Payment Released on Withdraw Approval'
+  //     }))
+  //
+  //     eventRows.value = [
+  //       ...adCampaignCreatedEvents,
+  //       ...paymentReleasedEvents,
+  //       ...budgetWithdrawnEvents,
+  //       ...paymentReleasedOnWithdrawApprovalEvents
+  //     ]
+  //     //let's change the advertise status.
+  //     advertismentPaymentEventsDialog.value.show = true
+  //   } else {
+  //     $q.notify({ message: result?.error?.message, type: 'negative' })
+  //   }
+  // } else {
+  //   $q.notify({ message: 'No campaign code associated', type: 'negative' })
+  // }
+  // $q.loading.hide()
 }
 
 async function onWithdrawRemainingBudgetDialog(advertise) {
@@ -377,17 +377,17 @@ async function onwithdrawAmountSpentDialog(advertise) {
 
 async function _claimPayment(advertise, currentAmountSpent) {
   $q.loading.show()
-  const result = await claimPayment({ campaignCode: advertise.campaignCode, currentAmounSpentInMatic: currentAmountSpent })
-  if (result.status.includes('success')) {
-    $q.notify({ message: 'Campaign payment claimed successfully', type: 'positive' })
-    //let's change the advertise status.
-    if (currentAmountSpent >= advertise.budget) {
-      await _completeAdvertise(advertise)
-    }
-  } else {
-    $q.notify({ message: result?.error?.message, type: 'negative' })
-  }
-  $q.loading.hide()
+  // const result = await claimPayment({ campaignCode: advertise.campaignCode, currentAmounSpentInMatic: currentAmountSpent })
+  // if (result.status.includes('success')) {
+  //   $q.notify({ message: 'Campaign payment claimed successfully', type: 'positive' })
+  //   //let's change the advertise status.
+  //   if (currentAmountSpent >= advertise.budget) {
+  //     await _completeAdvertise(advertise)
+  //   }
+  // } else {
+  //   $q.notify({ message: result?.error?.message, type: 'negative' })
+  // }
+  // $q.loading.hide()
 }
 
 async function _completeAdvertise(advertise) {
@@ -401,15 +401,15 @@ async function _completeAdvertise(advertise) {
 }
 async function _withdrawRemainingBudget(advertise, currentAmounSpent) {
   $q.loading.show()
-  const result = await requestAndApproveWithdrawal({ campaignCode: advertise.campaignCode, currentAmounSpentInMatic: currentAmounSpent })
-  if (result.status.includes('success')) {
-    $q.notify({ message: 'Remaining budget withdrawn successfully ', type: 'positive' })
-    //let's change the advertise status
-    await _completeAdvertise(advertise)
-  } else {
-    $q.notify({ message: result?.error?.message, type: 'negative' })
-  }
-  $q.loading.hide()
+  // const result = await requestAndApproveWithdrawal({ campaignCode: advertise.campaignCode, currentAmounSpentInMatic: currentAmounSpent })
+  // if (result.status.includes('success')) {
+  //   $q.notify({ message: 'Remaining budget withdrawn successfully ', type: 'positive' })
+  //   //let's change the advertise status
+  //   await _completeAdvertise(advertise)
+  // } else {
+  //   $q.notify({ message: result?.error?.message, type: 'negative' })
+  // }
+  // $q.loading.hide()
 }
 
 function goToUrl(id) {

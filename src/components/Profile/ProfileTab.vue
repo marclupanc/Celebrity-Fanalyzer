@@ -120,7 +120,7 @@ import { Notify, useQuasar } from 'quasar'
 import { computed, ref, watch } from 'vue'
 import Web3ModalComponent from './Web3ModalComponent.vue'
 import { useWalletStore } from 'app/src/stores'
-import { customWeb3modal } from 'src/web3/walletConnect'
+// import { customWeb3modal } from 'src/web3/walletConnect'
 
 const walletStore = useWalletStore()
 const errorStore = useErrorStore()
@@ -192,7 +192,7 @@ function onRemoveWalletAddress() {
   user.value.walletAddress = ''
   walletStore.getWalletInfo.wallet_address = ''
   removeWalletAddressDialog.value.show = false
-  customWeb3modal.disconnect()
+  // customWeb3modal.disconnect()
   save()
   $q.notify({ message: 'Wallet address removed', type: 'negative' })
 }

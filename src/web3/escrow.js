@@ -1,28 +1,28 @@
 import { ethers } from 'ethers'
-import { customWeb3modal } from './walletConnect'
+// import { customWeb3modal } from './walletConnect'
 import CompetitionEscrow from 'src/contracts/artifacts/contracts/CompetitionEscrow.sol/CompetitionEscrow.json'
 
 const iface = new ethers.utils.Interface(CompetitionEscrow.abi)
 
-const checkConnection = async () => {
-  if (!customWeb3modal.getAddress()) {
-    await customWeb3modal.open()
-    return true
-  }
-  return true
-}
+// const checkConnection = async () => {
+//   if (!customWeb3modal.getAddress()) {
+//     await customWeb3modal.open()
+//     return true
+//   }
+//   return true
+// }
 
 const getProvider = async () => {
-  try {
-    const isConnected = await checkConnection()
-    if (isConnected) {
-      const walletProvider = customWeb3modal.getWalletProvider()
-      return new ethers.providers.Web3Provider(walletProvider)
-    }
-  } catch (error) {
-    console.error('Error getting provider:', error)
-    throw new Error('please connect your wallet')
-  }
+  // try {
+  // const isConnected = await checkConnection()
+  // if (isConnected) {
+  //   const walletProvider = customWeb3modal.getWalletProvider()
+  //   return new ethers.providers.Web3Provider(walletProvider)
+  // }
+  // } catch (error) {
+  //   console.error('Error getting provider:', error)
+  //   throw new Error('please connect your wallet')
+  // }
 }
 
 const getContractInstance = async () => {

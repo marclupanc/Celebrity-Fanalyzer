@@ -220,11 +220,11 @@ function openDatePicker() {
   datePickerVisible.value = true
 }
 onMounted(async () => {
-  if (!customWeb3modal.getAddress()) {
-    customWeb3modal.open()
-    emit('hideDialog')
-  }
-  const maticRateResult = await fetchMaticRate()
+  // if (!customWeb3modal.getAddress()) {
+  //   customWeb3modal.open()
+  //   emit('hideDialog')
+  // }
+  const maticRateResult = undefined
   if (maticRateResult?.success) {
     maticRate.value = maticRateResult.maticRate
   } else {
