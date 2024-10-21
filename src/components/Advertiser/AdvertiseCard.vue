@@ -179,9 +179,9 @@ import { useQuasar } from 'quasar'
 import { useAdvertiseStore, useErrorStore, useStorageStore, useUserStore } from 'src/stores'
 import { calculateEndDate, currentYearMonth, getCurrentDate } from 'src/utils/date'
 import { onMounted, reactive, ref, watchEffect } from 'vue'
-// import { contractCreateAdCampaign } from 'app/src/web3/adCampaignManager'
-// import { customWeb3modal } from 'app/src/web3/walletConnect'
-// import { fetchMaticRate } from 'app/src/web3/transfers.js'
+import { contractCreateAdCampaign } from 'app/src/web3/adCampaignManager'
+import { customWeb3modal } from 'app/src/web3/walletConnect'
+import { fetchMaticRate } from 'app/src/web3/transfers.js'
 
 const emit = defineEmits(['hideDialog'])
 const props = defineProps([
@@ -220,11 +220,11 @@ function openDatePicker() {
   datePickerVisible.value = true
 }
 onMounted(async () => {
-  // if (!customWeb3modal.getAddress()) {
-  //   customWeb3modal.open()
-  //   emit('hideDialog')
-  // }
-  const maticRateResult = undefined
+  if (!customWeb3modal.getAddress()) {
+    customWeb3modal.open()
+    emit('hideDialog')
+  }
+  const maticRateResult = await fetchMaticRate()
   if (maticRateResult?.success) {
     maticRate.value = maticRateResult.maticRate
   } else {

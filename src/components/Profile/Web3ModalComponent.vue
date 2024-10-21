@@ -50,7 +50,7 @@
 </template>
 
 <script setup>
-// import { customWeb3modal } from 'src/web3/walletConnect'
+import { customWeb3modal } from 'src/web3/walletConnect'
 import { computed, ref } from 'vue'
 import { useWalletStore, useUserStore, useErrorStore } from 'app/src/stores'
 import { Notify } from 'quasar'
@@ -72,22 +72,22 @@ defineProps({
   }
 })
 
-// const address = computed(() => {
-//   // return customWeb3modal.getAddress()
-// })
-//
-// const chainId = computed(() => {
-//   // return customWeb3modal.getChainId()
-// })
-//
-// const isConnected = computed(() => {
-//   // return customWeb3modal.getIsConnected()
-// })
+const address = computed(() => {
+  return customWeb3modal.getAddress()
+})
+
+const chainId = computed(() => {
+  return customWeb3modal.getChainId()
+})
+
+const isConnected = computed(() => {
+  return customWeb3modal.getIsConnected()
+})
 
 async function updateWalletInfo() {
   changeWalletAddressDialog.value.show = false
 
-  // customWeb3modal.open()
+  customWeb3modal.open()
   if (chainId.value) {
     walletStore.setNetworkId(chainId.value)
   }
@@ -110,7 +110,10 @@ async function saveWalletAddress() {
     userStore.getUser.walletAddress = currentWalletAddress
     try {
       await userStore.updateProfile(userStore.getUser)
-      Notify.create({ message: 'Wallet address saved successfully. You will receive payments on this address.', type: 'positive' })
+      Notify.create({
+        message: 'Wallet address saved successfully. You will receive payments on this address.',
+        type: 'positive'
+      })
     } catch (error) {
       console.error(error)
       await Notify.create({ message: 'Error saving wallet address', type: 'negative' })
@@ -118,5 +121,5 @@ async function saveWalletAddress() {
   }
 }
 
-// customWeb3modal.subscribeProvider(handleChange)
+customWeb3modal.subscribeProvider(handleChange)
 </script>

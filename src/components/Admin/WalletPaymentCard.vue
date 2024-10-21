@@ -16,7 +16,7 @@
 import { useQuasar } from 'quasar'
 import { useErrorStore, useUserStore } from 'src/stores'
 import { ref, onMounted } from 'vue'
-// import { initiateSendEther, fetchMaticRate } from 'app/src/web3/transfers.js'
+import { initiateSendEther, fetchMaticRate } from 'app/src/web3/transfers.js'
 import { releaseFunds } from 'app/src/web3/escrow'
 import { useCryptoTransactionStore } from 'app/src/stores/crypto-transactions'
 const $q = useQuasar()
@@ -41,12 +41,12 @@ const maticRate = ref(0)
 onMounted(async () => {
   _walletAddress.value = props.walletAddress
   maticAmount.value = props.depositedAmount
-  // const maticRateResult = await fetchMaticRate()
-  // if (maticRateResult?.success) {
-  // maticRate.value = maticRateResult.maticRate
-  // } else {
-  //   $q.notify({ type: 'negative', message: 'Failed to fetch POL rate' })
-  // }
+  const maticRateResult = await fetchMaticRate()
+  if (maticRateResult?.success) {
+    maticRate.value = maticRateResult.maticRate
+  } else {
+    $q.notify({ type: 'negative', message: 'Failed to fetch POL rate' })
+  }
 })
 
 function convertToMatic() {

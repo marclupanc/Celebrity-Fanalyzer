@@ -1,4 +1,5 @@
 import { createPinia } from 'pinia'
+import { createPersistedState } from 'pinia-plugin-persistedstate'
 import { store } from 'quasar/wrappers'
 import { useCommentStore } from './comments'
 import { useEntryStore } from './entries'
@@ -19,8 +20,34 @@ import { useClicksStore } from './clicks'
 import { useImpressionsStore } from './impressions'
 import { useLoadingStore } from './loading'
 
+/*
+ * If not building with SSR mode, you can
+ * directly export the Store instantiation;
+ *
+ * The function below can be async too; either use
+ * async/await or return a Promise which resolves
+ * with the Store instance.
+ */
+/* { ssrContext } */
 export default store(() => {
-  return createPinia()
+  const pinia = createPinia()
+
+  pinia.use(
+    createPersistedState({
+      storage: {
+        getItem: (key) => {
+          return localStorage.getItem(key)
+        },
+        setItem: (key, value) => {
+          localStorage.setItem(key, value)
+        }
+      }
+    })
+  )
+  // You can add Pinia plugins here
+  // pinia.use(SomePiniaPlugin)
+
+  return pinia
 })
 
 export {

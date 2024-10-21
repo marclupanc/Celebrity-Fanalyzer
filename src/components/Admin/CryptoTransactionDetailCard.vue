@@ -23,7 +23,7 @@
 import { useQuasar } from 'quasar'
 import { useErrorStore, useUserStore } from 'src/stores'
 import { ref, onMounted } from 'vue'
-// import { getTransactionDetails } from 'app/src/web3/transfers.js'
+import { getTransactionDetails } from 'app/src/web3/transfers.js'
 const $q = useQuasar()
 
 const errorStore = useErrorStore()
@@ -58,12 +58,12 @@ async function loadCrytptoTransactionDetail() {
   try {
     cryptoTransactionDetail.value.transactionHash = props.cryptoTransaction?.tHash
 
-    // const retreivedTransactionDetail = await getTransactionDetails(props.cryptoTransaction?.tHash, props.cryptoTransaction?.networkName)
+    const retreivedTransactionDetail = await getTransactionDetails(props.cryptoTransaction?.tHash, props.cryptoTransaction?.networkName)
     cryptoTransactionDetail.value.initiatorEmail = props.detail?.depositor
     cryptoTransactionDetail.value.sender = retreivedTransactionDetail?.sender
     cryptoTransactionDetail.value.receiver = props.detail?.recipient
     cryptoTransactionDetail.value.amount = props.detail?.amount
-    // cryptoTransactionDetail.value.status = retreivedTransactionDetail?.status
+    cryptoTransactionDetail.value.status = retreivedTransactionDetail?.status
     cryptoTransactionDetail.value.checkLink = props.cryptoTransaction?.explorerUrl + props.cryptoTransaction?.tHash
     cryptoTransactionDetail.value.networkName = props.cryptoTransaction?.networkName
   } catch (error) {

@@ -162,7 +162,7 @@ import { useEntryStore, useErrorStore, usePromptStore, useUserStore, useShareSto
 import { computed, onBeforeUnmount, onMounted, watchEffect, ref } from 'vue'
 import FundDepositCard from './FundDepositCard.vue'
 
-// import { customWeb3modal } from 'app/src/web3/walletConnect'
+import { customWeb3modal } from 'app/src/web3/walletConnect'
 
 import { useRouter } from 'vue-router'
 import ShareComponent from 'src/components/Posts/ShareComponent.vue'
@@ -325,14 +325,14 @@ function handleDeleteEntry(entryId, promptId) {
 //proceed deposit funds.
 async function onProceedDepositFundDialog(props) {
   //let's check if the entry already have valid payment..
-  // if (!customWeb3modal.getAddress()) {
-  //   $q.notify({ type: 'negative', message: 'Please connect your wallet and try again' })
-  //   customWeb3modal.open()
-  // } else {
-  //   proceedDepositFundDialog.value.show = true
-  //   proceedDepositFundDialog.value.walletAddress = customWeb3modal.getAddress()
-  //   proceedDepositFundDialog.value.prompt = props
-  // }
+  if (!customWeb3modal.getAddress()) {
+    $q.notify({ type: 'negative', message: 'Please connect your wallet and try again' })
+    customWeb3modal.open()
+  } else {
+    proceedDepositFundDialog.value.show = true
+    proceedDepositFundDialog.value.walletAddress = customWeb3modal.getAddress()
+    proceedDepositFundDialog.value.prompt = props
+  }
 }
 function getOrigin(slug) {
   return window.origin + slug

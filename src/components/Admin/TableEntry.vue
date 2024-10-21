@@ -211,8 +211,8 @@ import EntryCard from './EntryCard.vue'
 import WalletPaymentCard from './WalletPaymentCard.vue'
 import CryptoTransactionDetailCard from './CryptoTransactionDetailCard.vue'
 import { useCryptoTransactionStore } from 'app/src/stores/crypto-transactions'
-// import { customWeb3modal } from 'app/src/web3/walletConnect'
-// import { setRecipient, getEventsForEscrow } from 'app/src/web3/escrow'
+import { customWeb3modal } from 'app/src/web3/walletConnect'
+import { setRecipient, getEventsForEscrow } from 'app/src/web3/escrow'
 import { useRouter } from 'vue-router'
 import ShareComponent from 'src/components/Posts/ShareComponent.vue'
 
@@ -300,49 +300,49 @@ async function onProceedPaymentDialog(props) {
     _currentPrompt.value = Array.isArray(fetchedPrompt) && fetchedPrompt.length > 0 ? fetchedPrompt[0] : null
   }
   if (_currentPrompt.value) {
-    //   $q.loading.show()
-    //   if (!customWeb3modal.getAddress()) {
-    //     $q.notify({ type: 'negative', message: 'Please connect your wallet and try again' })
-    //     customWeb3modal.open()
-    //     $q.loading.hide()
-    //   } else {
-    //     //let's check if the entry already have valid payment..
-    //     const cryptoTransactionExist = await cryptoTransactions.getCryptoTransactionsByEntry(props.id)
-    //     if (cryptoTransactionExist.length > 0) {
-    //       const escrowEvents = await getEventsForEscrow({ escrowId: _currentPrompt.value.escrowId })
-    //       if (escrowEvents?.status?.includes('success')) {
-    //         displayCrytptoTransactionDialog.value.detail = {
-    //           amount: escrowEvents?.events?.releaseEvents[0]?.args.amount,
-    //           recipient: escrowEvents?.events?.releaseEvents[0]?.args.recipient,
-    //           depositor: escrowEvents?.events?.depositEvents[0]?.args.depositor
-    //         }
-    //       } else {
-    //         displayCrytptoTransactionDialog.value.detail = {
-    //           amount: '0',
-    //           recipient: '',
-    //           depositor: ''
-    //         }
-    //       }
-    //       displayCrytptoTransactionDialog.value.cryptoTransaction = cryptoTransactionExist[0]
-    //       displayCrytptoTransactionDialog.value.show = true
-    //     } else {
-    //       if (!props.author.walletAddress) {
-    //         $q.notify({ type: 'negative', message: 'The entry author should set wallet address' })
-    //       } else {
-    //         const escrowEvents = await getEventsForEscrow({ escrowId: _currentPrompt.value.escrowId })
-    //
-    //         if (escrowEvents?.status?.includes('success')) {
-    //           proceedPaymentDialog.value.depositedAmount = escrowEvents?.events?.depositEvents[0]?.args.amount
-    //           proceedPaymentDialog.value.show = true
-    //           proceedPaymentDialog.value.walletAddress = escrowEvents?.events?.recipientSetEvents[0]?.args.recipient
-    //           proceedPaymentDialog.value.entry = props
-    //         }
-    //         $q.loading.hide()
-    //       }
-    //     }
-    //   }
-    // } else {
-    //   $q.notify({ type: 'negative', message: "Can't find the related entry prompt" })
+    $q.loading.show()
+    if (!customWeb3modal.getAddress()) {
+      $q.notify({ type: 'negative', message: 'Please connect your wallet and try again' })
+      customWeb3modal.open()
+      $q.loading.hide()
+    } else {
+      //let's check if the entry already have valid payment..
+      const cryptoTransactionExist = await cryptoTransactions.getCryptoTransactionsByEntry(props.id)
+      if (cryptoTransactionExist.length > 0) {
+        const escrowEvents = await getEventsForEscrow({ escrowId: _currentPrompt.value.escrowId })
+        if (escrowEvents?.status?.includes('success')) {
+          displayCrytptoTransactionDialog.value.detail = {
+            amount: escrowEvents?.events?.releaseEvents[0]?.args.amount,
+            recipient: escrowEvents?.events?.releaseEvents[0]?.args.recipient,
+            depositor: escrowEvents?.events?.depositEvents[0]?.args.depositor
+          }
+        } else {
+          displayCrytptoTransactionDialog.value.detail = {
+            amount: '0',
+            recipient: '',
+            depositor: ''
+          }
+        }
+        displayCrytptoTransactionDialog.value.cryptoTransaction = cryptoTransactionExist[0]
+        displayCrytptoTransactionDialog.value.show = true
+      } else {
+        if (!props.author.walletAddress) {
+          $q.notify({ type: 'negative', message: 'The entry author should set wallet address' })
+        } else {
+          const escrowEvents = await getEventsForEscrow({ escrowId: _currentPrompt.value.escrowId })
+
+          if (escrowEvents?.status?.includes('success')) {
+            proceedPaymentDialog.value.depositedAmount = escrowEvents?.events?.depositEvents[0]?.args.amount
+            proceedPaymentDialog.value.show = true
+            proceedPaymentDialog.value.walletAddress = escrowEvents?.events?.recipientSetEvents[0]?.args.recipient
+            proceedPaymentDialog.value.entry = props
+          }
+          $q.loading.hide()
+        }
+      }
+    }
+  } else {
+    $q.notify({ type: 'negative', message: "Can't find the related entry prompt" })
   }
 }
 
@@ -389,49 +389,52 @@ function onDeleteEntry(entryId, promptId) {
 }
 
 async function onSelectWinner(entry) {
-  // $q.loading.show()
-  // const isWinner = entry.isWinner !== true
-  // const payload = { entry: entry, isWinner: isWinner }
-  // //let's first check if the prompt don't already have selected entry
-  // if (!customWeb3modal.getAddress()) {
-  //   $q.notify({ type: 'negative', message: 'Please connect your wallet and try again' })
-  //   customWeb3modal.open()
-  //   $q.loading.hide()
-  //   selectWinnerDialog.value.show = false
-  // } else {
-  //   if (entry?.author?.walletAddress) {
-  //     const result = await setRecipient({ escrowId: _currentPrompt.value.escrowId, recipient: entry?.author?.walletAddress })
-  //     if (result?.status?.includes('success')) {
-  //       entryStore
-  //         .dataUpdateEntry(payload)
-  //         .then(async (response) => {
-  //           const { _entry, _prompt } = response
-  //           if (_entry && _prompt) {
-  //             emit('update-entry', { _entry, _prompt })
-  //           }
-  //           $q.notify({ type: 'positive', message: 'Winner selected' })
-  //           $q.loading.hide()
-  //         })
-  //         .catch((error) => {
-  //           errorStore.throwError(error, 'Error selecting winner')
-  //           $q.loading.hide()
-  //         })
-  //         .finally(() => {
-  //           selectWinnerDialog.value.show = false
-  //         })
-  //
-  //       selectWinnerDialog.value.show = false
-  //     } else {
-  //       $q.notify({ type: 'negative', message: 'Winner selection failed' })
-  //       $q.loading.hide()
-  //       selectWinnerDialog.value.show = false
-  //     }
-  //   } else {
-  //     $q.notify({ type: 'negative', message: 'The entry author should set a wallet address' })
-  //     $q.loading.hide()
-  //     selectWinnerDialog.value.show = false
-  //   }
-  // }
+  $q.loading.show()
+  const isWinner = entry.isWinner !== true
+  const payload = { entry: entry, isWinner: isWinner }
+  //let's first check if the prompt don't already have selected entry
+  if (!customWeb3modal.getAddress()) {
+    $q.notify({ type: 'negative', message: 'Please connect your wallet and try again' })
+    customWeb3modal.open()
+    $q.loading.hide()
+    selectWinnerDialog.value.show = false
+  } else {
+    if (entry?.author?.walletAddress) {
+      const result = await setRecipient({
+        escrowId: _currentPrompt.value.escrowId,
+        recipient: entry?.author?.walletAddress
+      })
+      if (result?.status?.includes('success')) {
+        entryStore
+          .dataUpdateEntry(payload)
+          .then(async (response) => {
+            const { _entry, _prompt } = response
+            if (_entry && _prompt) {
+              emit('update-entry', { _entry, _prompt })
+            }
+            $q.notify({ type: 'positive', message: 'Winner selected' })
+            $q.loading.hide()
+          })
+          .catch((error) => {
+            errorStore.throwError(error, 'Error selecting winner')
+            $q.loading.hide()
+          })
+          .finally(() => {
+            selectWinnerDialog.value.show = false
+          })
+
+        selectWinnerDialog.value.show = false
+      } else {
+        $q.notify({ type: 'negative', message: 'Winner selection failed' })
+        $q.loading.hide()
+        selectWinnerDialog.value.show = false
+      }
+    } else {
+      $q.notify({ type: 'negative', message: 'The entry author should set a wallet address' })
+      $q.loading.hide()
+      selectWinnerDialog.value.show = false
+    }
+  }
 }
 
 function getOrigin(slug) {

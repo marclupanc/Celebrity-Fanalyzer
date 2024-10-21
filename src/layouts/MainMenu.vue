@@ -48,15 +48,22 @@
 import { useEntryStore, useErrorStore, usePromptStore, useUserStore } from 'src/stores'
 import { computed, onMounted, ref, watchEffect, onBeforeUnmount } from 'vue'
 import { useRouter } from 'vue-router'
+import { onSnapshot, doc } from 'firebase/firestore'
+import { db } from 'src/firebase'
 import InstallAppBanner from 'components/shared/InstallAppBanner.vue'
 import { LocalStorage } from 'quasar'
+import { customWeb3modal } from 'src/web3/walletConnect'
 
 const updated = ref(false)
 const userStore = useUserStore()
+const promptStore = usePromptStore()
+const entriesStore = useEntryStore()
+const errorStore = useErrorStore()
 const router = useRouter()
 const currentPath = ref('')
 const isAdminPromptPath = currentPath.value.includes('/admin/prompts')
 const { href, params } = router.currentRoute.value
+const userDocRef = ref({})
 let deferredPrompt
 const showAppInstallBanner = ref(false)
 const dismissed = LocalStorage.getItem('dismissBanner')
@@ -69,9 +76,9 @@ const routes = computed(() => [
 ])
 
 function onLogout() {
-  // if (customWeb3modal.getAddress()) {
-  //   customWeb3modal.disconnect()
-  // }
+  if (customWeb3modal.getAddress()) {
+    customWeb3modal.disconnect()
+  }
   userStore.logout()
   updated.value = false
   router.push({ path: '/profile' })
@@ -87,25 +94,25 @@ const onAdminTabClick = () => {
   }
 }
 
-// watchEffect(async () => {
-//   // const uid = await userStore.getUser?.uid
-//   // const userRole = await userStore.getUser?.role
-//
-//   // if (uid) {
-//   //   userDocRef.value = doc(db, 'users', uid)
-//   //   onSnapshot(userDocRef.value, (docSnapshot) => {
-//   //     if (docSnapshot.exists()) {
-//   //       const userData = docSnapshot.data()
-//   //       if (userRole !== userData.role) {
-//   //         localStorage.removeItem('user')
-//   //         updated.value = true
-//   //       }
-//   //     } else {
-//   //       console.error('User not found')
-//   //     }
-//   //   })
-//   // }
-// })
+watchEffect(async () => {
+  const uid = await userStore.getUser?.uid
+  const userRole = await userStore.getUser?.role
+
+  if (uid) {
+    userDocRef.value = doc(db, 'users', uid)
+    onSnapshot(userDocRef.value, (docSnapshot) => {
+      if (docSnapshot.exists()) {
+        const userData = docSnapshot.data()
+        if (userRole !== userData.role) {
+          localStorage.removeItem('user')
+          updated.value = true
+        }
+      } else {
+        console.error('User not found')
+      }
+    })
+  }
+})
 
 const showBannerOnLoad = () => {
   deferredPrompt = null
@@ -122,32 +129,32 @@ const showBannerOnLoad = () => {
 
 onMounted(async () => {
   showBannerOnLoad()
-  //
-  // if (!userStore.getUserIp && !userStore.isAuthenticated) {
-  //   await userStore.fetchUserIp()
-  // }
-  //
-  // if (userStore.isAuthenticated && userStore.getUser && !userStore.getUser.location) {
-  //   await userStore.fetchUserIp()
-  // }
-  // if (params.year && params.month && !params.id) {
-  //   promptStore.fetchPromptBySlug(`${params.year}-${params.month}`).catch((error) => errorStore.throwError(error))
-  // }
-  //
-  // if (params.id) {
-  //   entriesStore.fetchEntryBySlug(`/${params.year}/${params.month}/${params.id}`).catch((error) => errorStore.throwError(error))
-  // }
-  //
-  // if (href === '/month') {
-  //   await promptStore.fetchMonthsPrompt()
-  // }
-  //
-  // if (params.slug) {
-  //   promptStore.fetchPromptBySlug(href).catch((error) => errorStore.throwError(error))
-  // }
+
+  if (!userStore.getUserIp && !userStore.isAuthenticated) {
+    await userStore.fetchUserIp()
+  }
+
+  if (userStore.isAuthenticated && userStore.getUser && !userStore.getUser.location) {
+    await userStore.fetchUserIp()
+  }
+  if (params.year && params.month && !params.id) {
+    promptStore.fetchPromptBySlug(`${params.year}-${params.month}`).catch((error) => errorStore.throwError(error))
+  }
+
+  if (params.id) {
+    entriesStore.fetchEntryBySlug(`/${params.year}/${params.month}/${params.id}`).catch((error) => errorStore.throwError(error))
+  }
+
+  if (href === '/month') {
+    await promptStore.fetchMonthsPrompt()
+  }
+
+  if (params.slug) {
+    promptStore.fetchPromptBySlug(href).catch((error) => errorStore.throwError(error))
+  }
 })
 onBeforeUnmount(() => {
-  // promptStore.reset()
+  promptStore.reset()
 })
 </script>
 

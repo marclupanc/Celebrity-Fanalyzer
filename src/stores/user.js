@@ -59,14 +59,14 @@ export const useUserStore = defineStore('user', {
         .finally(() => (this._isLoading = false))
     },
 
-    async fetchUsers() {
-      this._isLoading = true
-      onSnapshot(query(collection(db, 'users')), (querySnapshot) => {
-        const users = querySnapshot.docs.map((doc) => ({ uid: doc.id, ...doc.data() }))
-        this.$patch({ _users: users })
-      })
-      this._isLoading = false
-    },
+    // async fetchUsers() {
+    //   this._isLoading = true
+    //   onSnapshot(query(collection(db, 'users')), (querySnapshot) => {
+    //     const users = querySnapshot.docs.map((doc) => ({ uid: doc.id, ...doc.data() }))
+    //     this.$patch({ _users: users })
+    //   })
+    //   this._isLoading = false
+    // },
 
     async getUserByUidOrUsername(id) {
       this._isLoading = true
@@ -80,15 +80,15 @@ export const useUserStore = defineStore('user', {
         .finally(() => (this._isLoading = false))
     },
 
-    async fetchAdminsAndEditors() {
-      this._isLoading = true
-      await getDocs(query(collection(db, 'users'), or(where('role', '==', 'Admin'), where('role', '==', 'Editor'))))
-        .then((querySnapshot) => {
-          const users = querySnapshot.docs.map((doc) => ({ uid: doc.id, ...doc.data() }))
-          this.$patch({ _users: users })
-        })
-        .finally(() => (this._isLoading = false))
-    },
+    // async fetchAdminsAndEditors() {
+    //   this._isLoading = true
+    //   await getDocs(query(collection(db, 'users'), or(where('role', '==', 'Admin'), where('role', '==', 'Editor'))))
+    //     .then((querySnapshot) => {
+    //       const users = querySnapshot.docs.map((doc) => ({ uid: doc.id, ...doc.data() }))
+    //       this.$patch({ _users: users })
+    //     })
+    //     .finally(() => (this._isLoading = false))
+    // },
 
     /**
      * Fetch the user ip from Cloudflare

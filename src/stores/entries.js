@@ -57,7 +57,7 @@ export const useEntryStore = defineStore('entries', {
     _loadedEntries: []
   }),
 
-  persist: true,
+  // persist: true,
 
   getters: {
     getEntries: (state) => state._entries,
@@ -73,7 +73,7 @@ export const useEntryStore = defineStore('entries', {
       const userStore = useUserStore()
 
       if (!userStore.getUsers) {
-        await userStore.fetchAdminsAndEditors()
+        // await userStore.fetchAdminsAndEditors()
       }
 
       try {
@@ -100,7 +100,7 @@ export const useEntryStore = defineStore('entries', {
         this._isLoading = true
 
         if (!userStore.getUsers) {
-          await userStore.fetchAdminsAndEditors()
+          // await userStore.fetchAdminsAndEditors()
         }
 
         const userDocRef = doc(db, 'users', userId)
@@ -131,7 +131,7 @@ export const useEntryStore = defineStore('entries', {
       const userStore = useUserStore()
       try {
         if (!userStore.getUsers) {
-          await userStore.fetchAdminsAndEditors()
+          // await userStore.fetchAdminsAndEditors()
         }
 
         this._isLoading = true
