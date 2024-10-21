@@ -95,7 +95,7 @@ const router = useRouter()
 const route = useRoute()
 
 onMounted(async () => {
-  await userStore.fetchUsers()
+  // await userStore.fetchUsers()
   await userStore.getStatsUsers()
   advertiseStore.fetchAdvertises().catch((error) => errorStore.throwError(error))
 
