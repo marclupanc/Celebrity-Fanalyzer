@@ -57,7 +57,6 @@ import { Notify } from 'quasar'
 
 const walletStore = useWalletStore()
 const userStore = useUserStore()
-const errorStore = useErrorStore()
 const changeWalletAddressDialog = ref({ show: false })
 
 function onChangeWalletAddressDialog() {

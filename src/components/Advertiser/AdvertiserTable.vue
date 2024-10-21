@@ -241,7 +241,7 @@ import { ref, onMounted, watch } from 'vue'
 import { useQuasar } from 'quasar'
 import { useAdvertiseStore, useErrorStore, useUserStore } from 'src/stores'
 import { useRouter } from 'vue-router'
-import { getCurrentDate, calculateEndDate, computedDuration, dayMonthYear } from 'src/utils/date'
+import { getCurrentDate, calculateEndDate, computedDuration } from 'src/utils/date'
 import { claimPayment, requestAndApproveWithdrawal, getEventsForCampaign } from 'app/src/web3/adCampaignManager'
 
 const props = defineProps({

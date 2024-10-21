@@ -21,7 +21,7 @@
 </template>
 <script setup>
 import { useQuasar } from 'quasar'
-import { useErrorStore, useUserStore } from 'src/stores'
+import { useErrorStore } from 'src/stores'
 import { ref, onMounted } from 'vue'
 import { getTransactionDetails } from 'app/src/web3/transfers.js'
 const $q = useQuasar()

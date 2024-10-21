@@ -123,7 +123,7 @@ export const useCommentStore = defineStore('comments', {
       this._initialLoading = true
       const userStore = useUserStore()
       if (!userStore.getUsers) {
-        await userStore.fetchUsers()
+        // await userStore.fetchUsers()
       }
 
       try {
