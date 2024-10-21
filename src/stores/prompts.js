@@ -94,7 +94,7 @@ export const usePromptStore = defineStore('prompts', {
     async fetchPrompts(loadMore = false, count) {
       const userStore = useUserStore()
       if (!userStore.getUsers) {
-        await userStore.fetchAdminsAndEditors()
+        // await userStore.fetchAdminsAndEditors()
       }
 
       try {
@@ -138,7 +138,7 @@ export const usePromptStore = defineStore('prompts', {
       const userStore = useUserStore()
 
       if (!userStore.getUsers) {
-        await userStore.fetchAdminsAndEditors()
+        // await userStore.fetchAdminsAndEditors()
       }
 
       try {
@@ -163,7 +163,7 @@ export const usePromptStore = defineStore('prompts', {
     async fetchPromptById(id) {
       const userStore = useUserStore()
       if (!userStore.getUsers) {
-        await userStore.fetchAdminsAndEditors()
+        // await userStore.fetchAdminsAndEditors()
       }
 
       try {
@@ -183,7 +183,7 @@ export const usePromptStore = defineStore('prompts', {
         const userStore = useUserStore()
 
         if (!userStore.getUsers) {
-          await userStore.fetchAdminsAndEditors()
+          // await userStore.fetchAdminsAndEditors()
         }
         const promptRef = await getDocs(query(collection(db, 'prompts'), or(where('slug', '==', slug), where('date', '==', slug))))
         const promptSnapshot = promptRef.docs.map((doc) => ({ id: doc.id, ...doc.data() }))[0]
@@ -215,7 +215,7 @@ export const usePromptStore = defineStore('prompts', {
         const userStore = useUserStore()
 
         if (!userStore.getUsers) {
-          await userStore.fetchAdminsAndEditors()
+          // await userStore.fetchAdminsAndEditors()
         }
 
         const promptDocRef = doc(db, 'prompts', currentYearMonth())
