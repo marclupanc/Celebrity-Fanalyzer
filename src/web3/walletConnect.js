@@ -1,42 +1,59 @@
-import { createWeb3Modal, defaultConfig } from '@web3modal/ethers5'
-
 import { useWalletStore } from '../stores'
 
 // 1. Get projectId at https://cloud.walletconnect.com
 const projectId = import.meta.env.VITE_WALLET_CONNECT_PROJECT_ID
 
 const baseUrl = window.location.origin
-
 const currentNetworkName = import.meta.env.VITE_CURRENT_NETWORK_NAME.toLowerCase()
 
-// 3. Define a function to get the chain configuration based on the current network name
+let web3ModalInstance = null
 
-// 4. Get the chain configuration
-const chainConfig = useWalletStore().getChainConfig(currentNetworkName)
+const initializeWeb3Modal = async () => {
+  if (!web3ModalInstance) {
+    const { createWeb3Modal, defaultConfig } = await import('@web3modal/ethers5')
+    const chainConfig = useWalletStore().getChainConfig(currentNetworkName)
 
-// 3. Create your application's metadata object
-const metadata = {
-  name: 'Celebrity Fanalyser',
-  description: 'Celebrity Fanalyser',
-  // url must match your domain & subdomain
-  url: baseUrl,
-  icons: ['']
+    const metadata = {
+      name: 'Celebrity Fanalyser',
+      description: 'Celebrity Fanalyser',
+      url: baseUrl,
+      icons: ['']
+    }
+
+    const ethersConfig = defaultConfig({
+      metadata
+    })
+
+    web3ModalInstance = createWeb3Modal({
+      ethersConfig,
+      chains: [chainConfig],
+      projectId,
+      enableAnalytics: true,
+      enableOnramp: true
+    })
+  }
+
+  return web3ModalInstance
 }
 
-// 4. Create Ethers config
-const ethersConfig = defaultConfig({
-  /*Required*/
-  metadata
-  /*Optional*/
-})
+// Proxy object with dynamic import support
+const web3ModalProxy = new Proxy(
+  {},
+  {
+    get(target, prop) {
+      // Ensure Web3Modal is initialized lazily and dynamically
+      return async (...args) => {
+        const web3Modal = await initializeWeb3Modal()
 
-// 5. Create a Web3Modal instance
-export const customWeb3modal = createWeb3Modal({
-  ethersConfig,
-  chains: [chainConfig],
-  projectId,
-  // Optional - defaults to your Cloud configuration
-  enableAnalytics: true,
-  // Optional - false as default
-  enableOnramp: true
-})
+        if (web3Modal[prop]) {
+          return web3Modal[prop].apply(web3Modal, args)
+        }
+
+        throw new Error(`Web3Modal has no method: ${prop}`)
+      }
+    }
+  }
+)
+
+// Export the proxy as customWeb3Modal
+export const customWeb3modal = web3ModalProxy
